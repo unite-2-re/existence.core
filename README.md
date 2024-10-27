@@ -1,2 +1,3 @@
-# animate.core
-Collection of web components and scripts for animations
+# existence.core
+
+DOM elements existence state library.
