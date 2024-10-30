@@ -5,6 +5,7 @@ import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import { compression } from 'vite-plugin-compression2';
 import optimizer from 'vite-plugin-optimizer';
+import createExternal from "vite-plugin-external";
 
 //
 export const NAME = "existence";
@@ -113,14 +114,25 @@ export const plugins = [
     typescript(TSConfig),
     terser(terserOptions),
     optimizer({}),
-    compression()
+    compression(),
+    createExternal({
+        interop: 'auto',
+        externals: {externals: "externals", dist: "dist"},
+        externalizeDeps: [
+            "externals", "/externals", "./externals",
+            "dist", "/dist", "./dist"
+        ]
+    }),
 ];
 
 //
 export const rollupOptions = {
+    external: [
+        "externals", "/externals", "./externals",
+        "dist", "/dist", "./dist"
+    ],
     plugins,
     treeshake: 'smallest',
-    external: [],
     input: "./src/index.ts",
     output: {
         minifyInternalExports: true,
