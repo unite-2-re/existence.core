@@ -74,8 +74,8 @@ const animateHide = async (target)=>{
 
                     //
                     display: target[computed]?.display || "revert-layer",
-                    "--opacity": target[computed]?.getPropertyValue("--opacity") || "revert-layer",
-                    "--scale": target[computed]?.getPropertyValue("--scale") || "revert-layer",
+                    opacity: target[computed]?.getPropertyValue("opacity") || "revert-layer",
+                    scale: target[computed]?.getPropertyValue("scale") || "revert-layer",
                     pointerEvents: "none"
                 },
                 {
@@ -84,8 +84,8 @@ const animateHide = async (target)=>{
 
                     //
                     display: target[computed]?.display || "revert-layer",
-                    "--opacity": 0,
-                    "--scale": 0.8,
+                    opacity: 0,
+                    scale: 0.8,
                     pointerEvents: "none"
                 },
                 {
@@ -94,12 +94,12 @@ const animateHide = async (target)=>{
 
                     //
                     display: "none",
-                    "--opacity": 0,
-                    "--scale": 0.8,
+                    opacity: 0,
+                    scale: 0.8,
                     pointerEvents: "none"
                 }
             ],  {
-                fill: "none",
+                //fill: "forwards",
                 duration: 100,
                 easing: "linear",
                 delay: matchMedia("(hover: none)").matches ? (parseFloat(target.getAttribute("data-delay-hide") || "0") || 0) : 0
@@ -142,8 +142,8 @@ const animateShow = async (target)=>{
 
                     //
                     display: "none",
-                    "--opacity": 0,
-                    "--scale": 0.8,
+                    opacity: 0,
+                    scale: 0.8,
                     pointerEvents: "none"
                 },
                 {
@@ -152,8 +152,8 @@ const animateShow = async (target)=>{
 
                     //
                     display: target[computed]?.display || "revert-layer",
-                    "--opacity": 0,
-                    "--scale": 0.8,
+                    opacity: 0,
+                    scale: 0.8,
                     pointerEvents: "none"
                 },
                 {
@@ -162,12 +162,12 @@ const animateShow = async (target)=>{
 
                     //
                     display: target[computed]?.display || "revert-layer",
-                    "--opacity": target[computed]?.getPropertyValue("--opacity") || "revert-layer",
-                    "--scale": target[computed]?.getPropertyValue("--scale") || "revert-layer",
+                    opacity: target[computed]?.getPropertyValue("opacity") || "revert-layer",
+                    scale: target[computed]?.getPropertyValue("scale") || "revert-layer",
                     pointerEvents: target[computed]?.pointerEvents || "revert-layer"
                 }
             ], {
-                fill: "none",
+                //fill: "forwards",
                 duration: 100,
                 easing: "linear",
                 delay: 0
@@ -251,13 +251,11 @@ const loadInlineStyle = (inline: string, rootElement = document.head)=>{
 //
 const initialize = ()=>{
     loadBlobStyle(styles);
-
-    //
     observeAttributeBySelector(document.body, "*[data-hidden]", "data-hidden", (mutation)=>{
         if (mutation.attributeName == 'data-hidden') {
             const target = mutation.target as HTMLElement;
             if (target.dataset.hidden != mutation.oldValue) {
-                if ((target.dataset.hidden && target.dataset.hidden != "false")) {
+                if ((target.dataset.hidden != null && target.dataset.hidden != "false")) {
                     animateHide(target);
                 } else {
                     animateShow(target);
