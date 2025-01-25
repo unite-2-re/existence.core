@@ -4,6 +4,7 @@
         display: none !important;
         pointer-events: none !important;
         touch-action: none !important;
+        content-visibility: hidden !important;
     }
 }
 
@@ -13,5 +14,6 @@
         display: none !important;
         pointer-events: none !important;
         touch-action: none !important;
+        content-visibility: hidden !important;
     }
 }
