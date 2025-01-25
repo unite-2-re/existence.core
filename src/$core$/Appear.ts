@@ -143,11 +143,11 @@ const animateShow = async (target)=>{
     }
 
     //
-    target?.dispatchEvent?.(new CustomEvent("u2-appear", {
+    /*target?.dispatchEvent?.(new CustomEvent("u2-appear", {
         detail: {},
         bubbles: true,
         cancelable: true
-    }));
+    }));*/
 }
 
 // @ts-ignore
@@ -159,10 +159,9 @@ const initialize = ()=>{
     observeAttributeBySelector(document.body, "*", "data-hidden", (mutation)=>{
         if (mutation.attributeName == 'data-hidden') {
             const target = mutation.target as HTMLElement;
-            if ( // TODO: legacy "false" support
-                (target.dataset.hidden == null && mutation.oldValue != null) || 
-                (target.dataset.hidden != null && mutation.oldValue == null)
-            ) {
+
+            // TODO? legacy "false" support
+            if (target.dataset.hidden !== target.dataset.hidden) {
                 if (target.dataset.hidden != null) {
                     animateHide(target);
                 } else {
