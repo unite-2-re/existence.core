@@ -161,7 +161,7 @@ const initialize = ()=>{
             const target = mutation.target as HTMLElement;
 
             // TODO? legacy "false" support
-            if (target.dataset.hidden !== target.dataset.hidden) {
+            if (target.dataset.hidden !== mutation.oldValue) {
                 if (target.dataset.hidden != null) {
                     animateHide(target);
                 } else {
