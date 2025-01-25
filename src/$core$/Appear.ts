@@ -143,11 +143,11 @@ const animateShow = async (target)=>{
     }
 
     //
-    /*target?.dispatchEvent?.(new CustomEvent("u2-appear", {
+    target?.dispatchEvent?.(new CustomEvent("u2-appear", {
         detail: {},
         bubbles: true,
         cancelable: true
-    }));*/
+    }));
 }
 
 // @ts-ignore
