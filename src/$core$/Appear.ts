@@ -115,7 +115,7 @@ const animateShow = async (target)=>{
                     //
                     "--opacity": 0,
                     "--scale": 0.8,
-                    display: target[computed]?.display || "revert-layer",
+                    display: target[computed]?.display || "none",
                     pointerEvents: "none"
                 },
                 {
