@@ -66,6 +66,8 @@ const animateHide = async (target)=>{
                 //rangeStart: "cover 0%",
                 //rangeEnd: "cover 100%",
             }).finished;
+        } else {
+            await new Promise((resolve)=>requestAnimationFrame(resolve));
         }
 
         //
@@ -136,6 +138,8 @@ const animateShow = async (target)=>{
                 //rangeStart: "cover 0%",
                 //rangeEnd: "cover 100%",
             }).finished;
+        } else {
+            await new Promise((resolve)=>requestAnimationFrame(resolve));
         }
 
         //
@@ -168,11 +172,7 @@ const initialize = async ()=>{
 
             // TODO? legacy "false" support
             if (target.dataset.hidden !== mutation.oldValue) {
-                if (target.dataset.hidden != null) {
-                    animateHide(target);
-                } else {
-                    animateShow(target);
-                }
+                Promise?.try?.(target.dataset.hidden != null ? animateHide : animateShow, target)?.catch?.(console.warn.bind(console));
             }
         }
     });
