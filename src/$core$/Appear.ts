@@ -20,12 +20,12 @@ const animateHide = async (target)=>{
         bubbles: true,
         cancelable: true
     }))) {
-        if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !target.classList.contains("u2-while-animation") && !target.hasAttribute("data-instant")) {
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !target.classList.contains("u2-while-animation") && !target.hasAttribute("data-instant") && target.dataset.hidden != null) {
             target.classList.add("u2-while-animation");
         }
 
         //
-        if (target.classList.contains("u2-while-animation")) {
+        if (target.classList.contains("u2-while-animation") && target.dataset.hidden != null) {
             target[computed] = getComputedStyle(target, "");
             await target.animate([
                 {
@@ -66,18 +66,20 @@ const animateHide = async (target)=>{
                 //rangeStart: "cover 0%",
                 //rangeEnd: "cover 100%",
             }).finished;
-
-            //
-            target.classList.remove("u2-while-animation");
         }
+
+        //
+        target.classList.remove("u2-while-animation");
     }
 
     //
-    target?.dispatchEvent?.(new CustomEvent("u2-hidden", {
-        detail: {},
-        bubbles: true,
-        cancelable: true
-    }));
+    if (target.dataset.hidden != null) {
+        target?.dispatchEvent?.(new CustomEvent("u2-hidden", {
+            detail: {},
+            bubbles: true,
+            cancelable: true
+        }));
+    }
 }
 
 //
@@ -89,12 +91,12 @@ const animateShow = async (target)=>{
         cancelable: true
     }))) {
         //
-        if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !target.classList.contains("u2-while-animation") && !target.hasAttribute("data-instant")) {
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !target.classList.contains("u2-while-animation") && !target.hasAttribute("data-instant") && target.dataset.hidden == null) {
             target.classList.add("u2-while-animation");
         }
 
         //
-        if (target.classList.contains("u2-while-animation")) {
+        if (target.classList.contains("u2-while-animation") && target.dataset.hidden == null) {
             await target.animate([
                 {
                     easing: "linear",
@@ -134,18 +136,20 @@ const animateShow = async (target)=>{
                 //rangeStart: "cover 0%",
                 //rangeEnd: "cover 100%",
             }).finished;
-
-            //
-            target.classList.remove("u2-while-animation");
         }
+
+        //
+        target.classList.remove("u2-while-animation");
     }
 
     //
-    target?.dispatchEvent?.(new CustomEvent("u2-appear", {
-        detail: {},
-        bubbles: true,
-        cancelable: true
-    }));
+    if (target.dataset.hidden == null) {
+        target?.dispatchEvent?.(new CustomEvent("u2-appear", {
+            detail: {},
+            bubbles: true,
+            cancelable: true
+        }));
+    }
 }
 
 // @ts-ignore
