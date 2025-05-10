@@ -27,7 +27,7 @@ const animateHide = async (target)=>{
         //
         if (target.classList.contains("u2-while-animation") && target.dataset.hidden != null) {
             target[computed] = getComputedStyle(target, "");
-            await target.animate([
+            const animate = target.animate([
                 {
                     easing: "linear",
                     offset: 0,
@@ -65,9 +65,24 @@ const animateHide = async (target)=>{
                 delay: 0
                 //rangeStart: "cover 0%",
                 //rangeEnd: "cover 100%",
-            }).finished;
+            });
+            const abth = ["u2-before-hide", ()=>animate.finish(), {once: true, passive: true}];
+            const abts = ["u2-before-show", ()=>animate.finish(), {once: true, passive: true}];
+            target.addEventListener(...abth);
+            target.addEventListener(...abts);
+            await animate.finished;
+            target.removeEventListener(...abts);
+            target.removeEventListener(...abts);
         } else {
-            await new Promise((resolve)=>requestAnimationFrame(resolve));
+            const {resolve, reject, promise} = Promise.withResolvers();
+            const req = requestAnimationFrame(resolve);
+            const abth = ["u2-before-hide", ()=>{ cancelAnimationFrame(req); resolve(performance.now()); }, {once: true, passive: true}];
+            const abts = ["u2-before-show", ()=>{ cancelAnimationFrame(req); resolve(performance.now()); }, {once: true, passive: true}];
+            target.addEventListener(...abth);
+            target.addEventListener(...abts);
+            await promise;
+            target.removeEventListener(...abts);
+            target.removeEventListener(...abts);
         }
 
         //
@@ -99,7 +114,7 @@ const animateShow = async (target)=>{
 
         //
         if (target.classList.contains("u2-while-animation") && target.dataset.hidden == null) {
-            await target.animate([
+            const animate = target.animate([
                 {
                     easing: "linear",
                     offset: 0,
@@ -137,9 +152,25 @@ const animateShow = async (target)=>{
                 delay: 0
                 //rangeStart: "cover 0%",
                 //rangeEnd: "cover 100%",
-            }).finished;
+            });
+
+            const abth = ["u2-before-hide", ()=>animate.finish(), {once: true, passive: true}];
+            const abts = ["u2-before-show", ()=>animate.finish(), {once: true, passive: true}];
+            target.addEventListener(...abth);
+            target.addEventListener(...abts);
+            await animate.finished;
+            target.removeEventListener(...abts);
+            target.removeEventListener(...abts);
         } else {
-            await new Promise((resolve)=>requestAnimationFrame(resolve));
+            const {resolve, reject, promise} = Promise.withResolvers();
+            const req = requestAnimationFrame(resolve);
+            const abth = ["u2-before-hide", ()=>{ cancelAnimationFrame(req); resolve(performance.now()); }, {once: true, passive: true}];
+            const abts = ["u2-before-show", ()=>{ cancelAnimationFrame(req); resolve(performance.now()); }, {once: true, passive: true}];
+            target.addEventListener(...abth);
+            target.addEventListener(...abts);
+            await promise;
+            target.removeEventListener(...abts);
+            target.removeEventListener(...abts);
         }
 
         //
